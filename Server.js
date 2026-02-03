@@ -1,20 +1,14 @@
-import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-import dotenv from "dotenv";
-import { getConnection } from "./db.js";
-import oracledb from "oracledb";
+const express = require("express");
+const path = require("path");
+const oracledb = require("oracledb");
+require("dotenv").config();
 
-dotenv.config();
+const { getConnection } = require("./db");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// necessário por causa do ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// 👉 servir frontend
+// frontend
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
@@ -39,9 +33,11 @@ app.get("/api/usuarios-ativos", async (req, res) => {
         and sysdate <= trunc(b.dt_expiration,'mi')
     `;
 
-    const result = await connection.execute(sql, [], {
-      outFormat: oracledb.OUT_FORMAT_OBJECT
-    });
+    const result = await connection.execute(
+      sql,
+      [],
+      { outFormat: oracledb.OUT_FORMAT_OBJECT }
+    );
 
     res.json({
       totalAtivos: result.rows.length,
@@ -49,14 +45,14 @@ app.get("/api/usuarios-ativos", async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Erro Oracle:", err);
     res.status(500).json({ erro: "Erro ao buscar usuários ativos" });
   } finally {
     if (connection) await connection.close();
   }
 });
 
-// fallback (caso acesse rota inexistente)
+// fallback
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
