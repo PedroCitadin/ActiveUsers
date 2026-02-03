@@ -1,0 +1,98 @@
+:root {
+  --bg-normal: #0f172a;
+  --bg-warning: #422006;
+  --bg-danger: #450a0a;
+
+  --card-green: #064e3b;
+  --card-yellow: #78350f;
+  --card-orange: #7c2d12;
+  --card-red: #7f1d1d;
+
+  --text-main: #e5e7eb;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg-normal);
+  color: var(--text-main);
+  padding: 20px;
+  transition: background 0.5s ease;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.card {
+  padding: 20px;
+  width: 220px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+  text-align: center;
+  transition: background 0.5s ease, transform 0.3s ease;
+}
+
+.card span {
+  font-size: 52px;
+  font-weight: bold;
+  display: block;
+}
+
+.card small {
+  opacity: 0.8;
+}
+
+/* estados do card */
+.card.ok {
+  background: var(--card-green);
+}
+
+.card.warn {
+  background: var(--card-yellow);
+}
+
+.card.alert {
+  background: var(--card-orange);
+}
+
+.card.danger {
+  background: var(--card-red);
+  animation: pulse 1s infinite alternate;
+}
+
+/* fundo da tela */
+body.warn {
+  background: var(--bg-warning);
+}
+
+body.danger {
+  background: var(--bg-danger);
+}
+
+/* tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+th {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* animação de pânico */
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
